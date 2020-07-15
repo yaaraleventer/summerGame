@@ -6,6 +6,13 @@ let board = [];
 for (let i = 0; i < 7; i++) {
     board[i] = new Array(6);
 }
+for (var i = 0; i < 6; i++) {
+    for (var j = 0; j < 7; j++) {
+        board[i][j] = 'white';
+
+    }
+
+}
 function circle(xCircle, yCircle, color) {
     ctx.beginPath();
     ctx.arc(xCircle, yCircle, 30, 0, 2 * Math.PI);
@@ -29,8 +36,8 @@ function drawBoard() {
     let y = 270;
     for (var i = 0; i < 6; i++) {
         for (var j = 0; j < 7; j++) {
-            board[i][j] = 'white';
-            circle(x, y, 'white');
+
+            circle(x, y, board[i][j]);
              x = x + 100;
         }
         x = 250;
