@@ -1,4 +1,5 @@
-﻿var c = document.getElementById("mycanvas");
+﻿dfdsfdsfdsf;
+var c = document.getElementById("mycanvas");
 var ctx = c.getContext("2d");
 
 let board = [];
