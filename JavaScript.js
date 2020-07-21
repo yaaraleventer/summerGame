@@ -1,8 +1,10 @@
-﻿dfdsfdsfdsf;
-var c = document.getElementById("mycanvas");
+﻿var c = document.getElementById("mycanvas");
 var ctx = c.getContext("2d");
 
 let board = [];
+let inDropping = false;
+let xText = 270;
+
 
 for (let i = 0; i < 7; i++) {
     board[i] = new Array(6);
@@ -54,10 +56,13 @@ let column = [];//מערך של הטורים
 for (let i = 0; i <= 7; i++) {
     column[i] = 5;
 }
+
 function freeSpace(colNum, colorCircle) { // פונקציה שבודקת מה המקום הפנוי הנמוך ביותר ומורידה את הדיסקית לאותו מקום ומקבלת את מספר הטור שאליו הורידו עיגול
     counter = 0;
     if (column[colNum-1] <= -1) {
         alert('column is full');
+        circle(550, 170, color);
+        inDropping = false;
     }
     else {
         drawCircle(170, colorCircle, counter, colNum);
@@ -67,7 +72,7 @@ function freeSpace(colNum, colorCircle) { // פונקציה שבודקת מה ה
 
 //(5-rows[rowNum-1])*20+20      מספר הפעמים שהאינטרוול יפעל בקפיצות של חמש
 
-freeSpace(3, 'yellow');
+
 function drawCircle(y, colorCircle, i, colNum) {
     let x = (colNum + 1) * 100 + 50;
     if (i != 0) {
@@ -80,7 +85,7 @@ function drawCircle(y, colorCircle, i, colNum) {
     if (i <= column[colNum - 1]+1) {
         setTimeout(function () {
             drawCircle(y + 100, colorCircle, i, colNum);
-        }, 400)
+        }, 200)
         i++;
     }
     else {
@@ -88,5 +93,61 @@ function drawCircle(y, colorCircle, i, colNum) {
         ctx.clearRect(0, 0, 1100, 860);
         drawBoard();
         column[colNum - 1] = column[colNum - 1] - 1;
+        if (color == 'yellow') {
+            color = 'red';
+            xText = 300;
+        }
+        else {
+            color = 'yellow';
+            xText = 270;
+        }
+        circle(550, 170, color);
+        inDropping = false;
+        ctx.font = "60px Arial";
+        ctx.fillText("The " + color + " player turn" , xText, 50);
     }
 }
+
+circle(550, 170, "yellow");
+ctx.font = "60px Arial";
+ctx.fillText("The yellow player turn", 270, 50);
+document.addEventListener("keydown", keyDownHandler, false);
+let x = 550;
+let y = 170;
+let color = 'yellow';
+function keyDownHandler(event) {
+    var makash = event.keyCode;
+    if (inDropping) {
+        return;
+    }
+    //circle(x, y, color);
+    if (makash == 39 && x <= 820) {//right
+        for (var i = 0; i < 5; i++) {
+            x += 20;
+            ctx.clearRect(0, 0, c.width, c.height);
+            drawBoard();
+            circle(x, y, color);
+        }
+        ctx.font = "60px Arial";
+        ctx.fillText("The " + color + " player turn", xText, 50);
+    }
+    if (makash == 37 && x > 250) {//left
+        for (var i = 0; i < 5; i++) {
+            x -= 20;
+            ctx.clearRect(0, 0, c.width, c.height);
+            drawBoard();
+            circle(x, y, color);
+            ctx.font = "60px Arial";
+            ctx.fillText("The " + color + " player turn", xText, 50);
+        }
+    }
+    if (makash == 13) {
+        inDropping = true;
+        circle(x, y, "white");
+        freeSpace(((x - 50) / 100 - 1), color);
+        x = 550;
+    }
+}
+
+   
+
