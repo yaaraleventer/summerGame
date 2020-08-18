@@ -7,7 +7,6 @@ document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(event) {
     var x = event.keyCode;
     if (x == 32) {
-
         ctx.clearRect(0, 0, 1100, 860);
         let board = [];
         let inDropping = false;
@@ -21,6 +20,12 @@ function keyDownHandler(event) {
             }
         }
         function circle(xCircle, yCircle, color) {
+            /* הפעולה מציירת עיגול
+             פרמטרים:
+             xCircle - מיקום האיקס של מרכז המעגל
+            yCircle - מיקום הווי של מרכז המעגל
+            color - הצבע של העיגול
+            הפעולה לא מחזירה ערך*/
             ctx.beginPath();
             ctx.arc(xCircle, yCircle, 30, 0, 2 * Math.PI);
             ctx.fillStyle = color;
@@ -28,6 +33,12 @@ function keyDownHandler(event) {
         }
 
         function biggerCircle(xCircle, yCircle, color) {
+            /* הפעולה מציירת עיגול גדול יותר מאשר העיגול שמצוייר בפעולה הקודמת, על מנת לכסות את המסגרת של העיגול שנשארת
+             פרמטרים:
+             xCircle - מיקום האיקס של מרכז המעגל
+            yCircle - מיקום הווי של מרכז המעגל
+            color - הצבע של העיגול
+            הפעולה לא מחזירה ערך*/
             ctx.beginPath();
             ctx.arc(xCircle, yCircle, 35, 0, 2 * Math.PI);
             ctx.fillStyle = color;
@@ -35,6 +46,13 @@ function keyDownHandler(event) {
         }
 
         function rect(xRect, yRect, widthRect, heightRect) {
+            /*הפעולה מציירת מלבן
+             פרמטרים: 
+             xRect- האיקס של הקודקוד השמאלי למעלה של המלבן
+             yRect- הווי של הקודקוד השמאלי למעלה של המלבן 
+             widthRect- רוחב המלבן 
+             heightRect - גובה המלבן
+             הפעולה לא מחזירה ערך*/
 
             ctx.beginPath();
             ctx.rect(xRect, yRect, widthRect, heightRect);
@@ -46,6 +64,8 @@ function keyDownHandler(event) {
         }
 
         function drawBoard() {
+            /* הפעולה מציירת את הלוח של המשחק
+             היא לא מקבלת ערכים ולא מחזירה ערכים*/
             rect(200, 220, 700, 600);
             let x = 250;
             let y = 270;
@@ -133,7 +153,7 @@ function keyDownHandler(event) {
             if (inDropping) {
                 return true;
             }
-            if ((x > 250 && makash == 37) || (x < 850 && makash == 39)) {
+            if (x > 250 && x <= 820) {
                 for (var i = 0; i < 5; i++) {
                     if (makash == 37) {//left
                         x -= 20;
@@ -197,7 +217,6 @@ function keyDownHandler(event) {
                 ctx.fillText("The " + color + " player won", 150, 390);
                 ctx.font = "60px Arial";
                 ctx.fillText("Press space to start again", 200, 470);
-
                 document.addEventListener("keydown", keyDownHandler, false);
                 function keyDownHandler(event) {
                     var x = event.keyCode;
@@ -208,30 +227,15 @@ function keyDownHandler(event) {
                             }
                         }
                         counter = 0;
-                        for (var i = 0; i <= 7; i++) {
+                        for (let i = 0; i <= 7; i++) {
                             column[i] = 5;
                         }
                         color = 'yellow';
-                        drawBoard();
+                        drawBoard()
                     }
                 }
             }
-            else {
-                tie();
-            }
         }
-        function tie() {
-            if ((column[0] == -1) && (column[1] == -1) && (column[2] == -1) && (column[3] == -1) && (column[4] == -1) && (column[5] == -1) && (column[6] == -1)) {
-                ctx.clearRect(0, 0, 1100, 860);
-                ctx.font = "80px Arial";
-                ctx.fillStyle = 'black';
-                ctx.fillText("Game over. No one won", 130, 390);
-                ctx.font = "60px Arial";
-                ctx.fillText("Press space to start again", 200, 470);
-            }
-        }
+
     }
 }
-       
-
-        
