@@ -132,8 +132,8 @@ function keyDownHandler(event) {
             var makash = event.keyCode;
             if (inDropping) {
                 return true;
-            } 
-            if ( x > 250 && x <= 820) {
+            }
+            if ((x > 250 && makash == 37) || (x < 850 && makash == 39)) {
                 for (var i = 0; i < 5; i++) {
                     if (makash == 37) {//left
                         x -= 20;
@@ -197,9 +197,41 @@ function keyDownHandler(event) {
                 ctx.fillText("The " + color + " player won", 150, 390);
                 ctx.font = "60px Arial";
                 ctx.fillText("Press space to start again", 200, 470);
+
+                document.addEventListener("keydown", keyDownHandler, false);
+                function keyDownHandler(event) {
+                    var x = event.keyCode;
+                    if (x == 32) {
+                        for (var i = 0; i < 6; i++) {
+                            for (var j = 0; j < 7; j++) {
+                                board[i][j] = 'white';
+                            }
+                        }
+                        counter = 0;
+                        for (var i = 0; i <= 7; i++) {
+                            column[i] = 5;
+                        }
+                        color = 'yellow';
+                        drawBoard();
+                    }
+                }
+            }
+            else {
+                tie();
+            }
+        }
+        function tie() {
+            if ((column[0] == -1) && (column[1] == -1) && (column[2] == -1) && (column[3] == -1) && (column[4] == -1) && (column[5] == -1) && (column[6] == -1)) {
+                ctx.clearRect(0, 0, 1100, 860);
+                ctx.font = "80px Arial";
+                ctx.fillStyle = 'black';
+                ctx.fillText("Game over. No one won", 130, 390);
+                ctx.font = "60px Arial";
+                ctx.fillText("Press space to start again", 200, 470);
             }
         }
     }
-}       
+}
+       
 
         
